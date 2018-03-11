@@ -1,0 +1,17 @@
+{application, opencensus_cowboy,
+ [{description, ""},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {applications,
+   [kernel,
+    stdlib,
+    opencensus
+   ]},
+  {env,[]},
+  {modules, []},
+  %% {mod, {opencensus_cowboy, []}},
+
+  {maintainers, ["Ilya Khaprov"]},
+  {licenses, ["MIT"]},
+  {links, [{"Github", "https://github.com/deadtrickster/opencensus-cowboy"}]}
+ ]}.
