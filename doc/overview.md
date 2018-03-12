@@ -1,6 +1,6 @@
 @copyright 2018 Ilya Khaprov <<i.khaprov@gmail.com>>.
 @title opencensus_cowboy
-@version 0.1.0
+@version 0.1.1
 
 @doc
 
