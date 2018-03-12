@@ -52,5 +52,6 @@ MIT
 
 
 <table width="100%" border="0" summary="list of modules">
-<tr><td><a href="opencensus_cowboy_context.md" class="module">opencensus_cowboy_context</a></td></tr></table>
+<tr><td><a href="opencensus_cowboy2_context.md" class="module">opencensus_cowboy2_context</a></td></tr>
+<tr><td><a href="opencensus_cowboy2_stat.md" class="module">opencensus_cowboy2_stat</a></td></tr></table>
 

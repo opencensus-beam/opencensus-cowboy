@@ -23,6 +23,6 @@ defmodule OpencensusCowboy.Mixfile do
   end
 
   defp deps do
-    [{:opencensus, github: "census-instrumentation/opencensus-erlang"}]
+    [{:opencensus, "~> 0.3"}]
   end
 end

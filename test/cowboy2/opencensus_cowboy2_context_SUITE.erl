@@ -13,8 +13,10 @@
 %% @doc All tests of this suite.
 all() ->
   [
-   test_context_decoding,
-   test_no_context_decoding
+   test_span_context_decoding,
+   test_no_span_context_decoding,
+   test_tag_context_decoding,
+   test_no_tag_context_decoding
   ].
 
 %% @doc Groups of tests
@@ -44,23 +46,48 @@ end_per_testcase(_, Config) ->
 %% TESTS
 %% ===================================================================
 
-test_context_decoding(Config) ->
+test_span_context_decoding(Config) ->
 
   SpanCtx = oc_trace:start_span("My Span", undefined),
 
   {ok, Response} =
-    httpc:request(get, {?URL("qwe"),
-                        [{"Trace-Parent", oc_span_ctx_header:encode(SpanCtx)}]}, [], []),
+    httpc:request(get, {?URL("spans"),
+                        [{binary_to_list(oc_span_ctx_header:field_name()),
+                          oc_span_ctx_header:encode(SpanCtx)}]}, [], []),
+
   ?assertEqual(SpanCtx, oc_span_ctx_header:decode(body(Response))).
 
-test_no_context_decoding(Config) ->
+test_no_span_context_decoding(Config) ->
 
   _SpanCtx = oc_trace:start_span("My Span", undefined),
 
   {ok, Response} =
-    httpc:request(get, {?URL("qwe"),
+    httpc:request(get, {?URL("spans"),
                         []}, [], []),
+
   ?assertEqual("qwe", body(Response)).
+
+test_tag_context_decoding(Config) ->
+
+  Tags = oc_tags:new(#{"key1" => "value1",
+                       "key2" => "key2"}),
+
+  {ok, Response} =
+    httpc:request(get, {?URL("tags"),
+                        [{binary_to_list(oc_tag_ctx_header:field_name()),
+                          oc_tag_ctx_header:encode(Tags)}]}, [], []),
+
+  ?assertEqual(Tags, oc_tag_ctx_header:decode(body(Response))).
+
+test_no_tag_context_decoding(Config) ->
+
+  Tags = #{},
+
+  {ok, Response} =
+    httpc:request(get, {?URL("tags"),
+                        []}, [], []),
+
+  ?assertEqual(Tags, oc_tag_ctx_header:decode(body(Response))).
 
 %% ===================================================================
 %% Private parts

@@ -1,4 +1,4 @@
--module(qwe_handler).
+-module(spans_handler).
 
 %% -behaviour(cowboy_handler).
 

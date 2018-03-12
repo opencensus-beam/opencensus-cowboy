@@ -3,17 +3,30 @@
 -export([execute/2]).
 
 execute(Req, Env) ->
-  
-  case cowboy_req:header(string:lowercase(oc_span_ctx_header:field_name()), Req) of
+
+  case try_decode_header(Req, oc_span_ctx_header) of
     undefined -> ok;
-    TraceParent ->
-      case oc_span_ctx_header:decode(TraceParent) of
-        undefined ->          
-          error_logger:error_msg("Unable to decode ~p header ~p~n",
-                                 [oc_span_ctx_header:field_name(), TraceParent]);
-        SpanCtx ->
-          ocp:with_span_ctx(SpanCtx)
-      end
+    SpanCtx -> ocp:with_span_ctx(SpanCtx)
+  end,
+
+  case try_decode_header(Req, oc_tag_ctx_header) of
+    undefined -> ok;
+    Tags -> ocp:with_tags(Tags)
   end,
 
   {ok, Req, Env}.
+
+
+try_decode_header(Req, Module) ->
+  case cowboy_req:header(string:lowercase(Module:field_name()), Req) of
+    undefined -> undefined;
+    RawThing ->
+      case Module:decode(RawThing) of
+        undefined ->
+          error_logger:error_msg("Unable to decode ~p header ~p~n",
+                                 [Module:field_name(), RawThing]),
+          undefined;
+        Thing ->
+          Thing
+      end
+  end.

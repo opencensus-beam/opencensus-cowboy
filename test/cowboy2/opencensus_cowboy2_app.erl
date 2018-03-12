@@ -8,7 +8,8 @@
 start() ->
   Routes = [
             {'_', [
-                   {"/qwe", qwe_handler, []}
+                   {"/spans", spans_handler, []},
+                   {"/tags", tags_handler, []}
                   ]}
            ],
   Dispatch = cowboy_router:compile(Routes),
