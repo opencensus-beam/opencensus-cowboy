@@ -4,7 +4,7 @@
 
 Copyright (c) 2018 Ilya Khaprov <<i.khaprov@gmail.com>>.
 
-__Version:__ 0.1.1
+__Version:__ 0.2.0
 
 [![Hex.pm][Hex badge]][Hex link]
 [![Hex.pm Downloads][Hex downloads badge]][Hex link]
@@ -52,5 +52,6 @@ MIT
 
 
 <table width="100%" border="0" summary="list of modules">
-<tr><td><a href="https://github.com/deadtrickster/opencensus-cowboy/blob/master/doc/opencensus_cowboy2_context.md" class="module">opencensus_cowboy2_context</a></td></tr></table>
+<tr><td><a href="https://github.com/deadtrickster/opencensus-cowboy/blob/master/doc/opencensus_cowboy2_context.md" class="module">opencensus_cowboy2_context</a></td></tr>
+<tr><td><a href="https://github.com/deadtrickster/opencensus-cowboy/blob/master/doc/opencensus_cowboy2_instrumenter.md" class="module">opencensus_cowboy2_instrumenter</a></td></tr></table>
 
