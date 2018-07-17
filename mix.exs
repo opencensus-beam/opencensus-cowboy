@@ -23,6 +23,6 @@ defmodule OpencensusCowboy.Mixfile do
   end
 
   defp deps do
-    [{:opencensus, "~> 0.3"}]
+    [{:opencensus, "~> 0.6"}]
   end
 end
