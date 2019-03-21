@@ -14,6 +14,6 @@ start() ->
            ],
   Dispatch = cowboy_router:compile(Routes),
   {ok, _} = cowboy:start_clear(http, [{port, 0}],
-                               #{env => #{dispatch => Dispatch},                                
+                               #{env => #{dispatch => Dispatch},
                                  middlewares => [opencensus_cowboy2_context, cowboy_router, cowboy_handler]}),
   {ranch:get_port(http), http}.

@@ -19,11 +19,6 @@ all() ->
    test_no_tag_context_decoding
   ].
 
-%% @doc Groups of tests
-groups() ->
-  [
-  ].
-
 %% @doc Start the application.
 init_per_suite(Config) ->
   {ok, _} = application:ensure_all_started(cowboy),
@@ -47,15 +42,15 @@ end_per_testcase(_, Config) ->
 %% ===================================================================
 
 test_span_context_decoding(Config) ->
-
   SpanCtx = oc_trace:start_span("My Span", undefined),
 
+  ReqHeaders = [{stringify(H), stringify(V)}
+                || {H, V} <- oc_propagation_http_tracecontext:to_headers(SpanCtx)],
   {ok, Response} =
     httpc:request(get, {?URL("spans"),
-                        [{binary_to_list(oc_span_ctx_header:field_name()),
-                          oc_span_ctx_header:encode(SpanCtx)}]}, [], []),
+                        ReqHeaders}, [], []),
 
-  ?assertEqual(SpanCtx, oc_span_ctx_header:decode(body(Response))).
+  ?assertEqual(SpanCtx, oc_propagation_http_tracecontext:decode(body(Response))).
 
 test_no_span_context_decoding(Config) ->
 
@@ -95,10 +90,7 @@ test_no_tag_context_decoding(Config) ->
 
 %%% Helpers
 
-status({{_, Status, _}, _, _}) ->
-  Status.
+stringify(IoList) -> binary_to_list(iolist_to_binary(IoList)).
+
 body({_, _, Body}) ->
   Body.
-
-headers({_, Headers, _}) ->
-  lists:sort(Headers).

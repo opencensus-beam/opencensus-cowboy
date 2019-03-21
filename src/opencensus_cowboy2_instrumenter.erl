@@ -188,7 +188,7 @@ tag_status(#{resp_status:=Status}) ->
 tag_status_class(#{resp_status:=undefined}) ->
   undefined;
 tag_status_class(#{resp_status:=Status}) ->
-  prometheus_http:status_class(Status).
+  status_class(Status).
 
 tag_reason(#{reason:=Reason}) ->
   case Reason of
@@ -204,3 +204,40 @@ tag_error(#{reason:=Reason}) ->
     {_, Error, _} when is_atom(Error) -> Error;
     _ -> undefined
   end.
+
+%% @doc
+%% Returns status class for the http status code `SCode'.
+%%
+%% Raises `{invalid_value_error, SCode, Message}' error if `SCode'
+%% isn't a positive integer.
+%% @end
+status_class(SCode) when is_integer(SCode)
+                         andalso SCode > 0
+                         andalso SCode < 100 ->
+  "unknown";
+status_class(SCode) when is_integer(SCode)
+                         andalso SCode > 0
+                         andalso SCode < 200 ->
+  "informational";
+status_class(SCode) when is_integer(SCode)
+                         andalso SCode > 0
+                         andalso SCode < 300 ->
+  "success";
+status_class(SCode) when is_integer(SCode)
+                         andalso SCode > 0
+                         andalso SCode < 400 ->
+  "redirection";
+status_class(SCode) when is_integer(SCode)
+                         andalso SCode > 0
+                         andalso SCode < 500 ->
+  "client-error";
+status_class(SCode) when is_integer(SCode)
+                         andalso SCode > 0
+                         andalso SCode < 600 ->
+  "server-error";
+status_class(SCode) when is_integer(SCode)
+                         andalso SCode > 0
+                         andalso SCode >= 600 ->
+  "unknown";
+status_class(C) ->
+  erlang:error({invalid_value, C, "status code must be a positive integer"}).
