@@ -72,7 +72,7 @@ test_tag_context_decoding(Config) ->
                         [{binary_to_list(oc_tag_ctx_header:field_name()),
                           oc_tag_ctx_header:encode(Tags)}]}, [], []),
 
-  ?assertEqual(Tags, oc_tag_ctx_header:decode(body(Response))).
+  ?assertEqual({ok, Tags}, oc_tag_ctx_header:decode(body(Response))).
 
 test_no_tag_context_decoding(Config) ->
 
@@ -82,7 +82,7 @@ test_no_tag_context_decoding(Config) ->
     httpc:request(get, {?URL("tags"),
                         []}, [], []),
 
-  ?assertEqual(Tags, oc_tag_ctx_header:decode(body(Response))).
+  ?assertEqual({ok, Tags}, oc_tag_ctx_header:decode(body(Response))).
 
 %% ===================================================================
 %% Private parts
