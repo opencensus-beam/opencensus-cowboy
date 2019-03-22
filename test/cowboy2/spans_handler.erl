@@ -14,7 +14,7 @@
 init(Req, _Opts) ->
   Body = case ocp:current_span_ctx() of
            undefined -> <<"qwe">>;
-           SpanCtx -> oc_span_ctx_header:encode(SpanCtx)
+           SpanCtx -> oc_propagation_http_tracecontext:encode(SpanCtx)
          end,
   {ok, cowboy_req:reply(200, #{}, Body, Req), undefined}.
 

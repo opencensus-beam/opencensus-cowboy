@@ -3,7 +3,10 @@
 -export([execute/2]).
 
 execute(Req, Env) ->
-  case try_decode_header(Req, oc_span_ctx_header) of
+  Module = application:get_env(opencensus, http_propagation, oc_propagation_http_tracecontext),
+
+  Headers = cowboy_req:headers(Req),
+  case Module:from_headers(Headers) of
     undefined -> ok;
     SpanCtx -> ocp:with_span_ctx(SpanCtx)
   end,
@@ -21,16 +24,10 @@ try_decode_header(Req, Module) ->
     undefined -> undefined;
     RawThing ->
       case Module:decode(RawThing) of
-        undefined ->
-          error_logger:error_msg("Unable to decode ~p header ~p~n",
-                                 [Module:field_name(), RawThing]),
-          undefined;
         {ok, Thing} -> Thing;
         {error, Error} ->
           error_logger:error_msg("Unable to decode ~p header ~p~n",
                                  [Module:field_name(), Error]),
-          undefined;
-        Thing ->
-          Thing
+          undefined
       end
   end.
