@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-rebar3 as test do elvis && rebar3 as cowboy2 do ct --readable=false
+rebar3 as test do elvis, xref, dialyzer, ct --readable=false
