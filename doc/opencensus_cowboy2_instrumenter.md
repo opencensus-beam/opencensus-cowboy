@@ -26,7 +26,8 @@ Total number of Cowboy early errors, i.e. errors that occur before a request is 
 * `cowboy_protocol_upgrades_total`<br />
 Type: counter.<br />
 Tags: default - `[]`, configured via `protocol_upgrades_tags`.<br />
-Total number of protocol upgrades, i.e. when http connection upgraded to websocket connection.
+Total number of protocol upgrades, i.e. when http connection
+upgraded to websocket connection.
 
 * `cowboy_requests_total`<br />
 Type: counter.<br />
@@ -46,13 +47,15 @@ Total number of Cowboy request errors.
 * `cowboy_request_duration_seconds`<br />
 Type: histogram.<br />
 Tags: default - `[method, reason, status_class]`, configured via `request_tags`.<br />
-Buckets: default - `[0.01, 0.1, 0.25, 0.5, 0.75, 1, 1.5, 2, 4]`, configured via `duration_buckets`.<br />
+Buckets: default - `[0.01, 0.1, 0.25, 0.5, 0.75, 1, 1.5, 2, 4]`,
+configured via `duration_buckets`.<br />
 Cowboy request duration.
 
 * `cowboy_receive_body_duration_seconds`<br />
 Type: histogram.<br />
 Tags: default - `[method, reason, status_class]`, configured via `request_tags`.<br />
-Buckets: default - `[0.01, 0.1, 0.25, 0.5, 0.75, 1, 1.5, 2, 4]`, configured via `duration_buckets`.<br />
+Buckets: default - `[0.01, 0.1, 0.25, 0.5, 0.75, 1, 1.5, 2, 4]`,
+configured via `duration_buckets`.<br />
 Request body receiving duration.
 
 

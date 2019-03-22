@@ -3,7 +3,7 @@ defmodule OpencensusCowboy.Mixfile do
 
   def project do
     [app: :opencensus_cowboy,
-     version: "0.2.0",
+     version: "0.3.0",
      deps: deps(),
      description: description(),
      package: package()]
